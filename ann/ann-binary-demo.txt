@@ -1,0 +1,3 @@
+pip install tensorflow
+pip install keras
+conda install theano
