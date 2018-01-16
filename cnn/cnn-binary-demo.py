@@ -32,7 +32,7 @@ trainSet = trainImages.flow_from_directory('dataset/train', target_size = (64, 6
 testSet = testImages.flow_from_directory('dataset/test', target_size = (64, 64), batch_size = 32, class_mode = 'binary')
 
 # execute the cnn
-cnn.fit_generator(trainSet, steps_per_epoch = 4000, epochs = 25, validation_data = testSet, validation_steps = 1000)
+cnn.fit_generator(trainSet, steps_per_epoch = 2000, epochs = 4, validation_data = testSet, validation_steps = 500)
 
 # single experiment
 image = image.load_img('dataset/validade1.jpg', target_size = (64, 64))
