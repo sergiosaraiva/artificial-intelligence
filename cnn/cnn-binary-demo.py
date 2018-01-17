@@ -16,15 +16,15 @@ downscale = 2
 
 # initialize the CNN
 cnn = Sequential()
-# add first CNN layer + max pooling
+# add first CNN layer and apply max pooling
 cnn.add(Conv2D(32, (stride, stride), input_shape = (imageWidth, imageHeight, 3), activation = 'relu'))
 cnn.add(MaxPooling2D(pool_size = (downscale, downscale)))
-# add second CNN layer + max pooling
+# add second CNN layer and apply max pooling
 cnn.add(Conv2D(32, (stride, stride), activation = 'relu'))
 cnn.add(MaxPooling2D(pool_size = (downscale, downscale)))
 # apply flattening
 cnn.add(Flatten())
-# add conventional ann to apply flatening layer
+# add conventional ANN to apply flattening layer
 cnn.add(Dense(units = 128, activation = 'relu'))
 cnn.add(Dense(units = 1, activation = 'sigmoid'))
 cnn.compile(optimizer = 'adam', loss = 'binary_crossentropy', metrics = ['accuracy'])
@@ -36,7 +36,7 @@ testImages = ImageDataGenerator(rescale = 1./255)
 trainSet = trainImages.flow_from_directory('dataset/train', target_size = (imageWidth, imageHeight), batch_size = 32, class_mode = 'binary')
 testSet = testImages.flow_from_directory('dataset/test', target_size = (imageWidth, imageHeight), batch_size = 32, class_mode = 'binary')
 
-# execute the cnn
+# execute the CNN
 cnn.fit_generator(trainSet, steps_per_epoch = 1000, epochs = 4, validation_data = testSet, validation_steps = 250)
 
 # single experiment
