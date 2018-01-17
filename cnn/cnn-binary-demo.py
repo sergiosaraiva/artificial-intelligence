@@ -9,10 +9,13 @@ from keras.preprocessing import image
 
 from numpy import expand_dims
 
+imageWidth = 64
+imageHeight = 64
+
 # initialize the CNN
 cnn = Sequential()
 # add first CNN layer + max pooling
-cnn.add(Conv2D(32, (3, 3), input_shape = (64, 64, 3), activation = 'relu'))
+cnn.add(Conv2D(32, (3, 3), input_shape = (imageWidth, imageHeight, 3), activation = 'relu'))
 cnn.add(MaxPooling2D(pool_size = (2, 2)))
 # add second CNN layer + max pooling
 cnn.add(Conv2D(32, (3, 3), activation = 'relu'))
@@ -28,14 +31,14 @@ cnn.compile(optimizer = 'adam', loss = 'binary_crossentropy', metrics = ['accura
 trainImages = ImageDataGenerator(rescale = 1./255, shear_range = 0.2, zoom_range = 0.2, horizontal_flip = True)
 testImages = ImageDataGenerator(rescale = 1./255)
 # prepare training and test sets from folder
-trainSet = trainImages.flow_from_directory('dataset/train', target_size = (64, 64), batch_size = 32, class_mode = 'binary')
-testSet = testImages.flow_from_directory('dataset/test', target_size = (64, 64), batch_size = 32, class_mode = 'binary')
+trainSet = trainImages.flow_from_directory('dataset/train', target_size = (imageWidth, imageHeight), batch_size = 32, class_mode = 'binary')
+testSet = testImages.flow_from_directory('dataset/test', target_size = (imageWidth, imageHeight), batch_size = 32, class_mode = 'binary')
 
 # execute the cnn
 cnn.fit_generator(trainSet, steps_per_epoch = 1000, epochs = 4, validation_data = testSet, validation_steps = 250)
 
 # single experiment
-image = image.load_img('dataset/validade1.jpg', target_size = (64, 64))
+image = image.load_img('dataset/validade1.jpg', target_size = (imageWidth, imageHeight))
 image = image.img_to_array(image)
 image = expand_dims(image, axis = 0)
 result = cnn.predict(image)
@@ -45,7 +48,7 @@ if result[0][0] == 1:
 else:
     print('orange')
 
-image = image.load_img('dataset/validade2.jpg', target_size = (64, 64))
+image = image.load_img('dataset/validade2.jpg', target_size = (imageWidth, imageHeight))
 image = image.img_to_array(image)
 image = expand_dims(image, axis = 0)
 result = cnn.predict(image)
