@@ -17,10 +17,10 @@ datasetPath = 'dataset'
 
 # initialize the CNN
 cnn = Sequential()
-# add first CNN layer and apply max pooling
+# add first CNN layer (feature detector + relu layer) and apply max pooling
 cnn.add(Conv2D(32, (stride, stride), input_shape = (imageWidth, imageHeight, 3), activation = 'relu'))
 cnn.add(MaxPooling2D(pool_size = (downscale, downscale)))
-# add second CNN layer and apply max pooling
+# add second CNN layer (feature detector + relu layer) and apply max pooling
 cnn.add(Conv2D(32, (stride, stride), activation = 'relu'))
 cnn.add(MaxPooling2D(pool_size = (downscale, downscale)))
 # apply flattening
@@ -38,10 +38,10 @@ trainSet = trainImages.flow_from_directory(datasetPath + '/train', target_size =
 testSet = testImages.flow_from_directory(datasetPath + '/test', target_size = (imageWidth, imageHeight), batch_size = 32, class_mode = 'categorical')
 
 # execute the CNN
-cnn.fit_generator(trainSet, steps_per_epoch = 500, epochs = 2, validation_data = testSet, validation_steps = 250)
+cnn.fit_generator(trainSet, steps_per_epoch = 512, epochs = 2, validation_data = testSet, validation_steps = 128)
 
 # single experiment
-validationFile = datasetPath + '/validate3.jpg'
+validationFile = datasetPath + '/validate2.jpg'
 validationImage = image.load_img(validationFile, target_size = (imageWidth, imageHeight))
 validationImage = expand_dims(image.img_to_array(validationImage), axis = 0)
 validationResult = cnn.predict(validationImage)
