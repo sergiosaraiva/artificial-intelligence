@@ -21,7 +21,7 @@ cnn = Sequential()
 cnn.add(Conv2D(32, (stride, stride), input_shape = (imageWidth, imageHeight, 3), activation = 'relu'))
 cnn.add(MaxPooling2D(pool_size = (downscale, downscale)))
 # add second CNN layer (feature detector + relu layer) and apply max pooling
-cnn.add(Conv2D(32, (stride, stride), activation = 'relu'))
+cnn.add(Conv2D(64, (stride, stride), activation = 'relu'))
 cnn.add(MaxPooling2D(pool_size = (downscale, downscale)))
 # apply flattening
 cnn.add(Flatten())
