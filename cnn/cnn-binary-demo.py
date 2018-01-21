@@ -13,6 +13,7 @@ imageWidth = 64
 imageHeight = 64
 stride = 3
 downscale = 2
+datasetPath = 'dataset-binary'
 
 # initialize the CNN
 cnn = Sequential()
@@ -33,29 +34,15 @@ cnn.compile(optimizer = 'adam', loss = 'binary_crossentropy', metrics = ['accura
 trainImages = ImageDataGenerator(rescale = 1./255, shear_range = 0.2, zoom_range = 0.2, horizontal_flip = True)
 testImages = ImageDataGenerator(rescale = 1./255)
 # prepare training and test sets from folder
-trainSet = trainImages.flow_from_directory('dataset/train', target_size = (imageWidth, imageHeight), batch_size = 32, class_mode = 'binary')
-testSet = testImages.flow_from_directory('dataset/test', target_size = (imageWidth, imageHeight), batch_size = 32, class_mode = 'binary')
+trainSet = trainImages.flow_from_directory(datasetPath + '/train', target_size = (imageWidth, imageHeight), batch_size = 32, class_mode = 'binary')
+testSet = testImages.flow_from_directory(datasetPath + '/test', target_size = (imageWidth, imageHeight), batch_size = 32, class_mode = 'binary')
 
 # execute the CNN
-cnn.fit_generator(trainSet, steps_per_epoch = 1000, epochs = 4, validation_data = testSet, validation_steps = 250)
+cnn.fit_generator(trainSet, steps_per_epoch = 500, epochs = 2, validation_data = testSet, validation_steps = 250)
 
 # single experiment
-image = image.load_img('dataset/validade1.jpg', target_size = (imageWidth, imageHeight))
-image = image.img_to_array(image)
-image = expand_dims(image, axis = 0)
-result = cnn.predict(image)
-trainSet.class_indices
-if result[0][0] == 1:
-    print('apple')
-else:
-    print('orange')
-
-image = image.load_img('dataset/validade2.jpg', target_size = (imageWidth, imageHeight))
-image = image.img_to_array(image)
-image = expand_dims(image, axis = 0)
-result = cnn.predict(image)
-trainSet.class_indices
-if result[0][0] == 1:
-    print('apple')
-else:
-    print('orange')
+validationFile = datasetPath + '/validate2.jpg'
+validationImage = image.load_img(validationFile, target_size = (imageWidth, imageHeight))
+validationImage = expand_dims(image.img_to_array(validationImage), axis = 0)
+validationResult = cnn.predict(validationImage)
+print('Fruit in: ' + validationFile + ': ' + list(trainSet.class_indices.keys())[list(trainSet.class_indices.values()).index(validationResult[0][0])])
