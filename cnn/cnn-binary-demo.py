@@ -11,17 +11,17 @@ from numpy import expand_dims
 
 imageWidth = 64
 imageHeight = 64
-stride = 3
+kernelSize = 3
 downscale = 2
 datasetPath = 'dataset-binary'
 
 # initialize the CNN
 cnn = Sequential()
 # add first CNN layer (feature detector + relu layer) and apply max pooling
-cnn.add(Conv2D(32, (stride, stride), input_shape = (imageWidth, imageHeight, 3), activation = 'relu'))
+cnn.add(Conv2D(32, (kernelSize, kernelSize), input_shape = (imageWidth, imageHeight, 3), activation = 'relu'))
 cnn.add(MaxPooling2D(pool_size = (downscale, downscale)))
 # add second CNN layer (feature detector + relu layer) and apply max pooling
-cnn.add(Conv2D(64, (stride, stride), activation = 'relu'))
+cnn.add(Conv2D(64, (kernelSize, kernelSize), activation = 'relu'))
 cnn.add(MaxPooling2D(pool_size = (downscale, downscale)))
 # apply flattening
 cnn.add(Flatten())
