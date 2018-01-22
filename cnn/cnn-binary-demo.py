@@ -9,10 +9,10 @@ from keras.preprocessing import image
 
 from numpy import expand_dims
 
-imageWidth = 64
-imageHeight = 64
-kernelSize = 3
-downscale = 2
+imageWidth = 100
+imageHeight = 100
+kernelSize = 3 # feature vector (3x3)
+downscale = 2 # max pooling vector (2x2)
 datasetPath = 'dataset-binary'
 
 # initialize the CNN
@@ -41,7 +41,7 @@ testSet = testImages.flow_from_directory(datasetPath + '/test', target_size = (i
 cnn.fit_generator(trainSet, steps_per_epoch = 512, epochs = 2, validation_data = testSet, validation_steps = 128)
 
 # single experiment
-validationFile = datasetPath + '/validate2.jpg'
+validationFile = datasetPath + '/validate1.jpg'
 validationImage = image.load_img(validationFile, target_size = (imageWidth, imageHeight))
 validationImage = expand_dims(image.img_to_array(validationImage), axis = 0)
 validationResult = cnn.predict(validationImage)

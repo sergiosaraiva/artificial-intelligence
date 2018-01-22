@@ -7,8 +7,8 @@ from keras.preprocessing import image
 from keras.preprocessing.image import ImageDataGenerator
 from numpy import expand_dims
 
-imageWidth = 64
-imageHeight = 64
+imageWidth = 100
+imageHeight = 100
 kernelSize = 3 # feature vector (3x3)
 downscale = 2 # max pooling vector (2x2)
 datasetPath = 'dataset'
