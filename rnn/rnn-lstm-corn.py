@@ -12,12 +12,13 @@ from sklearn.preprocessing import MinMaxScaler
 
 dataSet = read_csv('corn-prices-historical-chart-data-train.csv')
 trainingSet = dataSet.iloc[:, 1:2].values
+#trainingSet = dataSet.iloc[32:, 1:2].values
 
 scaler = MinMaxScaler(feature_range = (0, 1))
 trainingSetScale = scaler.fit_transform(trainingSet)
 
 xTrain, yTrain = [], []
-for i in range(128, 2600):
+for i in range(128, 2048 + 32):
     xTrain.append(trainingSetScale[i-128:i, 0])
     yTrain.append(trainingSetScale[i, 0])
 xTrain, yTrain = array(xTrain), array(yTrain)
@@ -39,6 +40,13 @@ lstm.fit(xTrain, yTrain, epochs = 128, batch_size = 32)
 
 dataSetToPred = read_csv('corn-prices-historical-chart-data-pred.csv')
 dataSetReal = dataSetToPred.iloc[:, 1:2].values
+#dataSetReal = dataSet.iloc[0:32, 1:2].values
+#xPred = []
+#for i in range(32, 128 + 32):
+#    xPred.append(toPred[i-128:i, 0])
+#xPred = array(xPred)
+#xPred = reshape(xPred, (xPred.shape[0], xPred.shape[1], 1))
+#yPred = scaler.inverse_transform(lstm.predict(xPred))
 
 dataSetFull = concat((dataSet['values'], dataSetToPred['values']), axis = 0)
 toPred = dataSetFull[len(dataSetFull) - len(dataSetToPred) - 128:].values
