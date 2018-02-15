@@ -37,7 +37,7 @@ lstm.add(Dense(units = 1))
 lstm.compile(optimizer = 'rmsprop', loss = 'mean_squared_error')
 lstm.fit(xTrain, yTrain, epochs = 128, batch_size = 32)
 
-dataSetToPred = read_csv('corn-prices-historical-chart-data-prev.csv')
+dataSetToPred = read_csv('corn-prices-historical-chart-data-pred.csv')
 dataSetReal = dataSetToPred.iloc[:, 1:2].values
 
 dataSetFull = concat((dataSet['values'], dataSetToPred['values']), axis = 0)
