@@ -4,6 +4,8 @@ Created on Tue Feb 13 20:43:50 2018
 
 @author: SERGIO
 """
+# data source: http://www.macrotrends.net/2532/corn-prices-historical-chart-data
+
 from pandas import read_csv, concat
 from numpy import array, reshape
 from keras.models import Sequential
@@ -41,6 +43,7 @@ lstm.fit(xTrain, yTrain, epochs = 128, batch_size = 32)
 dataSetToPred = read_csv('corn-prices-historical-chart-data-pred.csv')
 dataSetReal = dataSetToPred.iloc[:, 1:2].values
 #dataSetReal = dataSet.iloc[0:32, 1:2].values
+#toPred = scaler.transform(dataSetReal)
 #xPred = []
 #for i in range(32, 128 + 32):
 #    xPred.append(toPred[i-128:i, 0])
