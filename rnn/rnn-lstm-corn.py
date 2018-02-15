@@ -17,7 +17,7 @@ scaler = MinMaxScaler(feature_range = (0, 1))
 trainingSetScale = scaler.fit_transform(trainingSet)
 
 xTrain, yTrain = [], []
-for i in range(128, 1000):
+for i in range(128, 2600):
     xTrain.append(trainingSetScale[i-128:i, 0])
     yTrain.append(trainingSetScale[i, 0])
 xTrain, yTrain = array(xTrain), array(yTrain)
