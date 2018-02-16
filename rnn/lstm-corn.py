@@ -45,13 +45,13 @@ lstm.add(Dropout(0.2))
 lstm.add(Dense(units = 1))
 
 lstm.compile(optimizer = 'rmsprop', loss = 'mean_squared_error')
-lstm.fit(xTrain, yTrain, epochs = 128, batch_size = 32)
+lstm.fit(xTrain, yTrain, epochs = 64, batch_size = 32)
 
-predSet=predSet.reshape(-1,1)
+predSet = predSet.reshape(-1,1)
 predSet = scaler.transform(predSet)
 xPred = []
 for i in range(timeSteps, timeSteps + toPredNum):
-    xPred.append(predSet[i-timeSteps:i, 0])
+    xPred.append(predSet[i-timeSteps :i, 0])
 xPred = array(xPred)
 xPred = reshape(xPred, (xPred.shape[0], xPred.shape[1], 1))
 yPred = scaler.inverse_transform(lstm.predict(xPred))
