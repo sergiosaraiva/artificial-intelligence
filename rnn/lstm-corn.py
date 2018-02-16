@@ -45,7 +45,7 @@ lstm.add(Dropout(0.2))
 lstm.add(Dense(units = 1))
 
 lstm.compile(optimizer = 'rmsprop', loss = 'mean_squared_error')
-lstm.fit(xTrain, yTrain, epochs = 64, batch_size = 32)
+lstm.fit(xTrain, yTrain, epochs = 128, batch_size = 32)
 
 predSet = predSet.reshape(-1,1)
 predSet = scaler.transform(predSet)
