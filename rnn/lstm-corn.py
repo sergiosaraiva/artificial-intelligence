@@ -18,8 +18,8 @@ from math import sqrt
 toPredNum = 29
 toTrainNum = 2520
 timeSteps = 128
-train = True
-test = True
+train = False
+test = False
 
 dataSet = read_csv('corn-prices-historical-chart-data.csv')
 trainingSet = dataSet.iloc[len(dataSet)-toTrainNum-toPredNum:len(dataSet)-toPredNum,1:2].values
