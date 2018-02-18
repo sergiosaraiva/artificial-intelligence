@@ -54,7 +54,6 @@ if train:
 else:
     lstm = load_model('lstm_corn-128ep-64n.h5')
 
-<<<<<<< HEAD
 predSet = dataSet.iloc[len(dataSet)-(toPredNum+timeSteps+1):len(dataSet), 1:2].values
 predSet = predSet.reshape(-1,1)
 predSet = scaler.transform(predSet)
