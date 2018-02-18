@@ -23,19 +23,18 @@ test = True
 dataSet = read_csv('corn-prices-historical-chart-data.csv')
 trainingSet = dataSet.iloc[len(dataSet)-toTrainNum-toPredNum:len(dataSet)-toPredNum,1:2].values
 
-toTrainTh = len(dataSet) - (toTrainNum + toPredNum + 1)
-
 scaler = MinMaxScaler(feature_range = (0, 1))
-trainingSetScale = scaler.fit_transform(trainingSet)
-
-xTrain, yTrain = [], []
-for i in range(timeSteps+toTrainTh,len(dataSet)-toPredNum):
-    xTrain.append(trainingSetScale[i-(timeSteps+toTrainTh):i-toTrainTh, 0])
-    yTrain.append(trainingSetScale[i-(toTrainTh+1), 0])
-xTrain, yTrain = array(xTrain), array(yTrain)
-xTrain = reshape(xTrain, (xTrain.shape[0], xTrain.shape[1], 1))
+trainingSet = scaler.fit_transform(trainingSet)
 
 if train:
+    toTrainTh = len(dataSet) - (toTrainNum + toPredNum + 1)    
+    xTrain, yTrain = [], []
+    for i in range(timeSteps+toTrainTh,len(dataSet)-toPredNum):
+        xTrain.append(trainingSet[i-(timeSteps+toTrainTh):i-toTrainTh, 0])
+        yTrain.append(trainingSet[i-(toTrainTh+1), 0])
+    xTrain, yTrain = array(xTrain), array(yTrain)
+    xTrain = reshape(xTrain, (xTrain.shape[0], xTrain.shape[1], 1))
+
     lstm = Sequential()
     lstm.add(LSTM(units = 128, return_sequences = True, input_shape = (xTrain.shape[1], 1)))
     lstm.add(Dropout(0.2))
@@ -48,9 +47,9 @@ if train:
     lstm.add(Dense(units = 1))    
     lstm.compile(optimizer = 'rmsprop', loss = 'mean_squared_error')
     lstm.fit(xTrain, yTrain, epochs = 128, batch_size = 32)    
-    lstm.save('lstm-corn-128ep-128n.h5')
+    lstm.save('lstm-corn-128ts-128ep-128n.h5')
 else:
-    lstm = load_model('lstm-corn-128ep-128n.h5')
+    lstm = load_model('lstm-corn-128ts-128ep-128n.h5')
 
 yRealSet = dataSet.iloc[len(dataSet)-(toPredNum):len(dataSet)+1, 1:2].values
 predSet = dataSet.iloc[len(dataSet)-(toPredNum+timeSteps+1):len(dataSet), 1:2].values
