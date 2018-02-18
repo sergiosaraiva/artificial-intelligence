@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 """
 Created on Tue Feb 13 20:43:50 2018
-
 @author: SERGIO
 """
 # data source: http://www.macrotrends.net/2532/corn-prices-historical-chart-data
