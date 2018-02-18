@@ -18,13 +18,12 @@ toPredNum = 29
 toTrainNum = 2520
 timeSteps = 128
 train = False
-test = False
+test = True
 
 dataSet = read_csv('corn-prices-historical-chart-data.csv')
 trainingSet = dataSet.iloc[len(dataSet)-toTrainNum-toPredNum:len(dataSet)-toPredNum,1:2].values
 
 toTrainTh = len(dataSet) - (toTrainNum + toPredNum + 1)
-toPredTh = len(dataSet) - (toPredNum + 1)
 
 scaler = MinMaxScaler(feature_range = (0, 1))
 trainingSetScale = scaler.fit_transform(trainingSet)
@@ -38,24 +37,24 @@ xTrain = reshape(xTrain, (xTrain.shape[0], xTrain.shape[1], 1))
 
 if train:
     lstm = Sequential()
-    lstm.add(LSTM(units = 64, return_sequences = True, input_shape = (xTrain.shape[1], 1)))
+    lstm.add(LSTM(units = 128, return_sequences = True, input_shape = (xTrain.shape[1], 1)))
     lstm.add(Dropout(0.2))
-    lstm.add(LSTM(units = 64, return_sequences = True))
+    lstm.add(LSTM(units = 128, return_sequences = True))
     lstm.add(Dropout(0.2))
-    lstm.add(LSTM(units = 64, return_sequences = True))
+    lstm.add(LSTM(units = 128, return_sequences = True))
     lstm.add(Dropout(0.2))
-    lstm.add(LSTM(units = 64))
+    lstm.add(LSTM(units = 128))
     lstm.add(Dropout(0.2))
     lstm.add(Dense(units = 1))    
     lstm.compile(optimizer = 'rmsprop', loss = 'mean_squared_error')
     lstm.fit(xTrain, yTrain, epochs = 128, batch_size = 32)    
-    lstm.save('lstm_corn-128ep-64n.h5')
+    lstm.save('lstm-corn-128ep-128n.h5')
 else:
-    lstm = load_model('lstm_corn-128ep-64n.h5')
+    lstm = load_model('lstm-corn-128ep-128n.h5')
 
+yRealSet = dataSet.iloc[len(dataSet)-(toPredNum):len(dataSet)+1, 1:2].values
 predSet = dataSet.iloc[len(dataSet)-(toPredNum+timeSteps+1):len(dataSet), 1:2].values
-predSet = predSet.reshape(-1,1)
-predSet = scaler.transform(predSet)
+predSet = scaler.transform(predSet.reshape(-1,1))
 
 if test:
     xPred = []
