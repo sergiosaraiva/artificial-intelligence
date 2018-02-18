@@ -17,7 +17,7 @@ from math import sqrt
 toPredNum = 29
 toTrainNum = 2520
 timeSteps = 128
-train = False
+train = True
 test = True
 
 dataSet = read_csv('corn-prices-historical-chart-data.csv')
