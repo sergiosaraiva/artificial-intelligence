@@ -54,13 +54,6 @@ if train:
 else:
     lstm = load_model('lstm_corn-128ep-64n.h5')
 
-<<<<<<< HEAD
-yRealSet = dataSet.iloc[len(dataSet)-(toPredNum):len(dataSet)+1, 1:2].values
-=======
-lstm.compile(optimizer = 'rmsprop', loss = 'mean_squared_error')
-lstm.fit(xTrain, yTrain, epochs = 128, batch_size = 32)
->>>>>>> 711933c293a5f6804101069f14eec69001c4d1b8
-
 predSet = dataSet.iloc[len(dataSet)-(toPredNum+timeSteps+1):len(dataSet), 1:2].values
 predSet = predSet.reshape(-1,1)
 predSet = scaler.transform(predSet)
