@@ -85,4 +85,3 @@ else:
     yPred = array(yPred)
 
 score = sqrt(mean_squared_error(yRealSet, yPred))
->>>>>>> 582824133e6f9c015ce682e2e0b75425bf747190
